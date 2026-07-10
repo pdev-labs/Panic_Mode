@@ -26,6 +26,9 @@ body {
     overflow-x: hidden;
     position: relative;
     min-height: 100vh;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none; /* Standard syntax */
 }
 
 /* Dynamic Background Elements */
