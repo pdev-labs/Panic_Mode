@@ -304,6 +304,18 @@ ul li::before {
     font-weight: bold;
 }
 
+.footer-link {
+    color: var(--accent-red);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.footer-link:hover {
+    color: var(--text-color);
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
 footer {
     text-align: center;
     margin-top: 6rem;

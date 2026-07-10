@@ -2,6 +2,9 @@
 
 Welcome to **Panic Mode**! 
 
+[![GitHub Profile](https://img.shields.io/badge/Profile-pdev--labs-blue?style=for-the-badge&logo=github)](https://github.com/pdev-labs)
+[![GitHub Repo](https://img.shields.io/badge/Repository-Panic__Mode-gray?style=for-the-badge&logo=github)](https://github.com/pdev-labs/Panic_Mode)
+
 > A theoretical security reference for extreme incident response scenarios. This repository documents commands that can be used to permanently disable or wipe a system when it is actively being compromised and physical/remote destruction is the only way to protect sensitive data.
 
 ⚠️ **WARNING: The commands listed below are highly destructive. Running them will result in irreversible data loss and render the operating system unbootable. Use them for educational and emergency security purposes ONLY.**
