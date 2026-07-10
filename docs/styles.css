@@ -140,9 +140,11 @@ h1::after {
 /* Grid Layout for Cards */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-template-columns: 1fr;
     gap: 2.5rem;
     perspective: 1000px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 /* Card Styling */
@@ -153,12 +155,20 @@ h1::after {
     border: 1px solid var(--glass-border);
     border-radius: 20px;
     padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
     box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     opacity: 0;
     transform: translateY(30px) rotateX(5deg);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .card.visible {
@@ -389,6 +399,8 @@ footer {
     
     .card {
         padding: 1.8rem;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
     
     h2 {
