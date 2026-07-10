@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panic Mode | Incident Response Reference</title>
+    <meta name="description" content="A theoretical security reference for extreme incident response scenarios.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="container">
+        <header>
+            <h1 data-text="🚨 Panic Mode">🚨 Panic Mode</h1>
+            <p class="subtitle">Theoretical Security Reference for Extreme Incident Response Scenarios.</p>
+        </header>
+
+        <div class="warning-banner">
+            <span class="warning-icon">⚠️</span>
+            <div>
+                <strong>WARNING:</strong> The commands listed below are highly destructive. Running them will result in irreversible data loss and render the operating system unbootable. Use them for educational and emergency security purposes ONLY.
+            </div>
+        </div>
+
+        <main class="grid-container">
+            <div class="card fade-in">
+                <h2>Windows: Boot Destruction</h2>
+                <p>Forcefully deletes a boot entry from the Boot Configuration Data (BCD) store, instantly removing the system's ability to boot.</p>
+                <div class="code-wrapper">
+                    <span class="copy-feedback">Copied!</span>
+                    <button class="copy-btn" aria-label="Copy code">
+                        <svg viewBox="0 0 24 24"><path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    </button>
+                    <div class="code-block">
+                        <code>bcdedit /delete {current} /f</code>
+                    </div>
+                </div>
+                <ul>
+                    <li><strong>Emergency Application:</strong> Prevents an adversary from rebooting into the OS to extract data.</li>
+                    <li><strong>Note:</strong> The <code>/f</code> flag forces execution without confirmation.</li>
+                </ul>
+            </div>
+
+            <div class="card fade-in">
+                <h2>Linux: Logical Wipe</h2>
+                <p>Recursively and forcefully deletes all files starting from the root directory.</p>
+                <div class="code-wrapper">
+                    <span class="copy-feedback">Copied!</span>
+                    <button class="copy-btn" aria-label="Copy code">
+                        <svg viewBox="0 0 24 24"><path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    </button>
+                    <div class="code-block">
+                        <code>rm -rf / --no-preserve-root</code>
+                    </div>
+                </div>
+                <ul>
+                    <li><strong>Emergency Application:</strong> Acts as a rapid logical wipe when proper cryptographic erasure tools are unavailable.</li>
+                    <li><strong>Impact:</strong> Disrupts an attacker's foothold by destroying the OS from the inside out.</li>
+                </ul>
+            </div>
+
+            <div class="card fade-in">
+                <h2>macOS: APFS Destruction</h2>
+                <p>Forcefully deletes the APFS container that houses the macOS operating system and user data.</p>
+                <div class="code-wrapper">
+                    <span class="copy-feedback">Copied!</span>
+                    <button class="copy-btn" aria-label="Copy code">
+                        <svg viewBox="0 0 24 24"><path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    </button>
+                    <div class="code-block">
+                        <code>diskutil apfs deleteContainer disk0</code>
+                    </div>
+                </div>
+                <ul>
+                    <li><strong>Emergency Application:</strong> Fast cryptographic shredding when combined with FileVault.</li>
+                    <li><strong>Impact:</strong> Instantly renders data inaccessible to the OS.</li>
+                </ul>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Panic Mode Contributors. Distributed under the MIT License.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
