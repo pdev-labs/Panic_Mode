@@ -1,57 +1,107 @@
-# 🚨 Panic Mode
+# Panic Mode
 
-Welcome to **Panic Mode**! 
+**Panic Mode** is a strictly educational cybersecurity repository designed for threat awareness, defensive research, incident-response training, and controlled laboratory experimentation.
 
-[![GitHub Profile](https://img.shields.io/badge/Profile-pdev--labs-blue?style=for-the-badge&logo=github)](https://github.com/pdev-labs)
-[![GitHub Repo](https://img.shields.io/badge/Repository-Panic__Mode-gray?style=for-the-badge&logo=github)](https://github.com/pdev-labs/Panic_Mode)
+## What is Panic Mode?
+This repository documents potentially dangerous commands and techniques across multiple operating systems. It explains what these commands do, why they are dangerous, and how defenders can detect, mitigate, and recover from them.
 
-> A theoretical security reference for extreme incident response scenarios. This repository documents commands that can be used to permanently disable or wipe a system when it is actively being compromised and physical/remote destruction is the only way to protect sensitive data.
+## Educational Purpose
+The primary goal is to educate students, researchers, system administrators, and security professionals. By understanding how destructive commands operate, defenders can better protect their systems and organizations.
 
-⚠️ **WARNING: The commands listed below are highly destructive. Running them will result in irreversible data loss and render the operating system unbootable. Use them for educational and emergency security purposes ONLY.**
+## Supported Operating Systems
+- Linux
+- Windows
+- macOS
 
-## 🛑 Extreme Security Measures
+## Risk Classification
+Each technique is classified by risk:
+- **INFO**: Educational behavior, minimal risk.
+- **LOW**: Minor impact, easily recoverable.
+- **MEDIUM**: Noticeable impact, may require effort to recover.
+- **HIGH**: Significant damage or data loss, difficult to recover.
+- **CRITICAL**: System destruction, complete data loss, unbootable state.
 
-In the event of an imminent physical breach or critical remote compromise where data cannot be allowed to fall into the wrong hands, the following commands can be executed to "brick" the system.
+## Laboratory/VM Requirements
+**DO NOT RUN THESE COMMANDS ON YOUR PRIMARY MACHINE OR ANY PRODUCTION SYSTEM.**
+Testing must only be performed in an isolated, disposable Virtual Machine (VM). See [docs/vm-setup.md](docs/vm-setup.md) for details on setting up a safe lab environment.
 
-### Windows: Boot Configuration Destruction
+## Safety Warnings
+Always take a VM snapshot before testing. Disconnect the VM from any sensitive networks. Never test against a user's real machine, third-party system, or network.
 
-```cmd
-bcdedit /delete {current} /f
-```
+## Defensive Learning Objectives
+Each technique includes information on:
+- **Detection**: Identifying the behavior through logs or monitoring.
+- **Mitigation**: Configuring systems to prevent the execution or impact.
+- **Recovery**: Steps to return the system to a clean state.
 
-**Use Case (Security Purposes Only):**
-This command forcefully deletes a boot entry from the Boot Configuration Data (BCD) store. 
-- **What it does:** By deleting the `{current}` identifier (or the boot manager itself), you instantly remove the system's ability to boot into the operating system.
-- **Emergency Application:** In a panic scenario where an adversary is attempting to extract data or restart the machine into a compromised state, destroying the bootloader permanently bricks the logical boot process and prevents the OS from loading again.
-- **Note:** The `/f` flag forces the deletion without confirmation, ensuring rapid execution.
+## Repository Structure
+- `linux/` - Linux specific techniques
+- `windows/` - Windows specific techniques
+- `macos/` - macOS specific techniques (Empty)
+- `docs/` - Safety, VM setup, and defense documentation
 
-### Linux: The "Doomsday" Command
+## How to Contribute
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-```bash
-rm -rf / --no-preserve-root
-```
+## Legal and Ethical Notice
+See [DISCLAIMER.md](DISCLAIMER.md). This project is NOT intended to encourage unauthorized activity.
 
-**Use Case (Security Purposes Only):**
-This is widely known as Linux's most dangerous command. It recursively (`-r`) and forcefully (`-f`) deletes all files starting from the root directory (`/`).
-- **What it does:** It aggressively deletes system binaries, configuration files, running processes' backing files, and user data across all mounted filesystems.
-- **Emergency Application:** While cryptographic erasure (destroying encryption keys) is the best way to secure data, executing this command acts as a rapid logical wipe if proper wiping tools are unavailable. It will immediately disrupt an attacker's foothold and destroy the OS from the inside out.
+## Command Reference
 
-### macOS: APFS Container Destruction
+### Windows
+- **Fork Bomb (Denial of Service)**: `%0|%0` ([Details](windows/01_fork_bomb.md))
+- **Delete Everything (del /s /q /f C:\)**: `del /s /q /f C:\` ([Details](windows/02_delete_everything.md))
+- **Format the Hard Drive**: `format C: /fs:NTFS` ([Details](windows/03_format_hard_drive.md))
+- **Overwriting the Bootloader (bootrec /fixmbr)**: `bootrec /fixmbr` ([Details](windows/04_overwrite_bootloader.md))
+- **Infinite File Creation (Consumes Disk Space)**: `:a
+echo This is a test >> %random%.txt
+goto a` ([Details](windows/05_infinite_file_creation.md))
+- **Disabling System Files**: `attrib -s -h -r C:\Windows\system32\*.* /s /d
+del C:\Windows\system32\*.dll` ([Details](windows/06_disable_system_files.md))
+- **Disabling the Registry (reg delete HKCR /f)**: `reg delete HKCR /f` ([Details](windows/07_disable_registry.md))
+- **Making the System Unusable (rd /s /q C:\Windows)**: `rd /s /q C:\Windows` ([Details](windows/08_make_system_unusable.md))
+- **Disabling Task Manager**: `reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableTaskMgr /t REG_DWORD /d 1 /f` ([Details](windows/09_disable_task_manager.md))
+- **Corrupting the Master Boot Record**: `echo something > \\.\PhysicalDrive0` ([Details](windows/10_corrupt_mbr.md))
+- **Creating an Infinite Loop (High CPU Usage)**: `:a
+start cmd /k
+goto a` ([Details](windows/11_infinite_cmd_loop.md))
+- **Hiding All Files on the System**: `attrib +h +s +r C:\*.* /s /d` ([Details](windows/12_hide_all_files.md))
+- **Renaming All Files to One Name (Data Loss)**: `ren *.* newname.*` ([Details](windows/13_rename_all_files.md))
+- **Disabling Internet Access**: `ipconfig /release` ([Details](windows/14_disable_internet.md))
+- **Creating a Fake Blue Screen of Death (BSOD)**: `taskkill /f /im svchost.exe` ([Details](windows/15_fake_bsod.md))
+- **Making the System Unbootable (bcdedit command)**: `bcdedit /delete {default}` ([Details](windows/16_make_system_unbootable.md))
+- **Disabling the Keyboard**: `reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\i8042prt" /v Start /t REG_DWORD /d 4 /f
+shutdown -r -t 0` ([Details](windows/17_disable_keyboard.md))
+- **Enabling Auto Shutdown**: `shutdown -s -t 10 -c "System Error: Restarting..."` ([Details](windows/18_enable_auto_shutdown.md))
+- **Disabling the Mouse**: `reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Mouclass" /v Start /t REG_DWORD /d 4 /f
+shutdown -r -t 0` ([Details](windows/19_disable_mouse.md))
+- **Turning Off the Screen Permanently**: `powercfg -change -monitor-timeout-ac 1` ([Details](windows/20_turn_off_screen.md))
+- **Locking the User Out**: `net user administrator /active:no` ([Details](windows/21_lock_user_out.md))
+- **Making the System Laggy (timeout command)**: `:loop
+timeout /t 100
+goto loop` ([Details](windows/22_make_system_laggy.md))
+- **Permanently Freezing the System**: `echo off
+:loop
+start notepad
+goto loop` ([Details](windows/23_freeze_system.md))
+- **Changing the Computer Name to a Random String**: `wmic computersystem where name="%computername%" call rename name="%random%"` ([Details](windows/24_change_computer_name.md))
+- **Destroying Windows Explorer (explorer.exe)**: `taskkill /f /im explorer.exe` ([Details](windows/25_destroy_windows_explorer.md))
 
-```bash
-diskutil apfs deleteContainer disk0
-```
-*(Note: disk0 is typically the internal boot drive)*
+### Linux
+- **Fork Bomb (Denial of Service)**: `:(){ :|:& };:` ([Details](linux/01_fork_bomb.md))
+- **Delete Everything (rm -rf /)**: `rm -rf /` ([Details](linux/02_delete_everything.md))
+- **Wipe the Hard Drive (dd command)**: `dd if=/dev/zero of=/dev/sda bs=1M` ([Details](linux/03_wipe_hard_drive.md))
+- **Redirecting Everything to /dev/null**: `echo "nameserver 8.8.8.8" > /dev/null 2>&1` ([Details](linux/04_redirect_to_dev_null.md))
+- **Format the Hard Drive**: `mkfs.ext4 /dev/sda` ([Details](linux/05_format_hard_drive.md))
+- **Overwriting Important System Files**: `echo "malicious_code" > /etc/passwd` ([Details](linux/06_overwrite_system_files.md))
+- **Moving Everything to the Trash (mv / /dev/null)**: `mv / /dev/null` ([Details](linux/07_move_everything_to_trash.md))
+- **Infinite While Loop (High CPU Usage)**: `while true; do fork & done` ([Details](linux/08_infinite_while_loop.md))
+- **Changing File Permissions on Everything (chmod 000 /)**: `chmod -R 000 /` ([Details](linux/09_change_file_permissions.md))
+- **Setting a Null Password for Root**: `echo "" | passwd --stdin root` ([Details](linux/10_null_password_root.md))
 
-**Use Case (Security Purposes Only):**
-This command forcefully deletes the APFS container that houses the macOS operating system and user data volumes.
-- **What it does:** It destroys the logical partition structure of the boot drive, rendering the data instantly inaccessible to the operating system and preventing the Mac from booting. 
-- **Emergency Application:** If FileVault is enabled, deleting the container or rapidly destroying the cryptographic keys (`fdesetup destroycryptouser`) is the fastest way to cryptographically shred the data and prevent physical or logical extraction during an incident.
-
-## 🤝 Contributing
-
-Contributions are welcome. If you have additional "panic mode" concepts, scripts, or commands for other environments (macOS, hypervisors, etc.), feel free to open a Pull Request. Please ensure they are documented strictly for educational and defensive emergency use.
-
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+### macOS
+- **Fork Bomb (Denial of Service)**: `:(){ :|:& };:` ([Details](macos/01_fork_bomb.md))
+- **Delete Everything (rm -rf /)**: `rm -rf /` ([Details](macos/02_delete_everything.md))
+- **Disabling Gatekeeper**: `sudo spctl --master-disable` ([Details](macos/03_disable_gatekeeper.md))
+- **Clearing NVRAM**: `sudo nvram -c` ([Details](macos/04_clear_nvram.md))
+- **Destroying .DS_Store Files**: `sudo find / -name ".DS_Store" -depth -exec rm {} \;` ([Details](macos/05_destroy_ds_store.md))
