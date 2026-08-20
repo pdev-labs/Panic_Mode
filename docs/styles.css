@@ -164,11 +164,10 @@ main {
 }
 
 .command-card {
-    background: var(--bg-card);
+    background: #111116;
     border: 1px solid var(--border-color);
     border-radius: 16px;
     padding: 1.5rem;
-    backdrop-filter: var(--glass-blur);
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     display: flex;
     flex-direction: column;
@@ -200,12 +199,16 @@ main {
     flex-grow: 1;
 }
 
+.code-wrapper {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
 .code-block {
     background: #000;
-    padding: 1rem;
+    padding: 1rem 3.5rem 1rem 1rem;
     border-radius: 8px;
     overflow-x: auto;
-    margin-bottom: 1.5rem;
     border: 1px solid rgba(255,255,255,0.1);
 }
 
@@ -213,6 +216,29 @@ main {
     font-family: 'Fira Code', monospace;
     font-size: 0.85rem;
     color: #a5b4fc;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-muted);
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    z-index: 2;
+}
+
+.copy-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
 }
 
 .card-footer {
